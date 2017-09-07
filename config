@@ -1,0 +1,21 @@
+######################################
+### Pipe                           ###
+### A wrapper for Spigot           ###
+######################################
+### Created by Jerred Shepherd     ###
+### Licensed under the GNU GPL 3.0 ###
+######################################
+
+# The absolute path to where the pipe script is stored in
+install_path=/home/files/minecraft/pipe
+
+# The path to your server folders
+servers_path=/home/files/minecraft/servers
+
+# The path to download and run BuildTools and BungeeCord, relative to the install path
+download_path=download
+
+# The path to store server backups, relative to the install path
+backup_path=backup
+
+tmux_prefix=

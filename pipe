@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+
+# Pipe by Jerred Shepherd
+# 0.1.3
+
+source "${BASH_SOURCE%/*}/includes/util.sh"
+source "${BASH_SOURCE%/*}/includes/commands/attach.sh"
+source "${BASH_SOURCE%/*}/includes/commands/backup.sh"
+source "${BASH_SOURCE%/*}/includes/commands/clean.sh"
+source "${BASH_SOURCE%/*}/includes/commands/create.sh"
+source "${BASH_SOURCE%/*}/includes/commands/destroy.sh"
+source "${BASH_SOURCE%/*}/includes/commands/download.sh"
+source "${BASH_SOURCE%/*}/includes/commands/restart.sh"
+source "${BASH_SOURCE%/*}/includes/commands/send.sh"
+source "${BASH_SOURCE%/*}/includes/commands/start.sh"
+source "${BASH_SOURCE%/*}/includes/commands/stop.sh"
+source "${BASH_SOURCE%/*}/includes/commands/update.sh"
+source "${BASH_SOURCE%/*}/config"
+
+declare -A bungeecord_versions
+
+help() {
+    printf "Created by Jerred Shepherd
+Pipe 0.1.3 Usage:
+pipe [command] [-arguments]
+ where commands are
+
+    Name              Function                                 Accepted Arguments      Notes
+   ######            ##########                               ####################    ######
+    attach            Attach to a server console               n
+    backup            Backup a server                          ns                     Don't run this while the server is running
+    clean             Clean a servers log files                ns
+    create            Create a new server                      nptv
+    destroy           Destroy a server                         ni
+    download          Download the latest version of a jar     tv
+    restart           Restart a server                         n
+    send              Send a command to a server               nc
+    start             Start a server                           naf
+    stop              Stop a server                            nak
+    update            Update a server                          na                      Don't run this while the server is running
+
+ General Arguments
+
+      Name              Description
+     ######            #############
+      -n <name>         Server name
+      -a                Apply the operation to all servers
+      -i                Do the operation immediately
+      -t <type>         Type (Spigot or BungeeCord when creating, BuildTools can be specified when updating)
+      -v <version>      Version
+                        For Spigot: Use Minecraft version number (eg 1.11.2) or 'latest'
+                        For BungeeCord: Use BungeeCord build number (eg 1222) or 'latest'
+                        For BuildTools: This doesn't apply, we always download the latest version
+
+
+ Send Arguments
+      -c <command>      The command to send to the server
+
+ Create Arguments
+      -p <port>         Server port
+
+ Start Arguments
+      -f                Force startup; Kill any process using the servers port
+
+ Stop Arguments
+      -k                Kill the server immediately\n"
+}
+
+main() {
+    getopt --test > /dev/null
+    if [[ $? -ne 4 ]]; then
+        echo "Sorry, `getopt --test` failed in this environment."
+        exit 1
+    fi
+
+    command="$1"
+
+    case "$command" in
+        "attach")
+            update "$@"
+            ;;
+        "backup")
+            backup "$@"
+            ;;
+        "clean")
+            clean "$@"
+            ;;
+        "create")
+            create "$@"
+            ;;
+        "destroy")
+            destroy "$@"
+            ;;
+        "download")
+            download "$@"
+            ;;
+        "restart")
+            restart "$@"
+            ;;
+        "send")
+            send "$@"
+            ;;
+        "start")
+            start "$@"
+            ;;
+        "stop")
+            stop "$@"
+            ;;
+        "update")
+            update "$@"
+            ;;
+        *)
+            help
+            ;;
+    esac
+}
+
+main "$@"
